@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  challenge_type: MyString
+  start_date: 2024-12-31
+  end_date: 2024-12-31
+  public: false
+  archive: false
+  starting_volume: 1
+  minimum_volume: 1
+  rep_unit: MyString
+
+two:
+  name: MyString
+  challenge_type: MyString
+  start_date: 2024-12-31
+  end_date: 2024-12-31
+  public: false
+  archive: false
+  starting_volume: 1
+  minimum_volume: 1
+  rep_unit: MyString

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_31_154955) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_31_155722) do
   create_table "challenges", force: :cascade do |t|
     t.string "name"
     t.string "challenge_type"
@@ -23,6 +23,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_154955) do
     t.string "rep_unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "creator_id"
+    t.index ["creator_id"], name: "index_challenges_on_creator_id"
   end
 
   create_table "logs", force: :cascade do |t|
@@ -59,9 +61,12 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_154955) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username"
+    t.boolean "visibility", default: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "challenges", "users", column: "creator_id"
   add_foreign_key "logs", "challenges"
   add_foreign_key "logs", "users"
   add_foreign_key "participations", "challenges"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_31_155722) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_31_165046) do
   create_table "challenges", force: :cascade do |t|
     t.string "name"
     t.string "challenge_type"
@@ -24,6 +24,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_155722) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "creator_id"
+    t.boolean "active"
     t.index ["creator_id"], name: "index_challenges_on_creator_id"
   end
 
@@ -63,7 +64,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_155722) do
     t.datetime "updated_at", null: false
     t.string "username"
     t.boolean "visibility", default: false
+    t.integer "primary_challenge_id"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["primary_challenge_id"], name: "index_users_on_primary_challenge_id"
   end
 
   add_foreign_key "challenges", "users", column: "creator_id"
@@ -72,4 +75,5 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_155722) do
   add_foreign_key "participations", "challenges"
   add_foreign_key "participations", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "users", "challenges", column: "primary_challenge_id"
 end

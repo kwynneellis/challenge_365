@@ -1,0 +1,8 @@
+<% if reps_remaining > 0 %>
+  <%= button_to "+ All #{reps_remaining}", 
+                challenge_logs_path(@challenge, date_of_set: @date, reps_in_set: reps_remaining), 
+                method: :post, 
+                remote: true, 
+                class: "btn btn-outline-success bg-success-subtle",
+                data: { turbo: "false" } %>
+<% end %>

@@ -1,2 +1,45 @@
-<h1>Challenges#index</h1>
-<p>Find me in app/views/challenges/index.html.erb</p>
+<h2>Your challenges</h2>
+<div class="d-flex justify-content-between mb-2">
+<%= link_to "Create", new_challenge_path, class: "btn btn-primary w-50 mx-1" %>
+<%= link_to "Browse", public_challenges_path, class: "btn btn-outline-secondary w-50 mx-1" %>
+</div>
+
+<% @active_challenges.each do |challenge| %>
+  <%= link_to challenge_path(challenge), class: "card-link" do %>
+    <div class="card text-bg-light mb-3">
+      <div class="card-header"><%= challenge.name.titleize %></div>
+      <div class="card-body">
+        <h5 class="card-title">Today: <%= number_with_delimiter(challenge.reps_done_today(current_user)) %> / <%= number_with_delimiter(challenge.rep_target_today) %> <%= challenge.rep_unit || '' %></h5>
+        <p class="card-text">Cumulative: <%= number_with_delimiter(challenge.cumulative_reps_done(current_user)) %> / <%= number_with_delimiter(challenge.cumulative_target_to_date) %> <%= challenge.rep_unit || '' %></p>
+        <p class="card-text"><small class="text-body-secondary">Started on <%= challenge.start_date.strftime("%d %b %Y") %></small></p>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @created_non_active_challenges.any? %>  
+  <h4>Created by you</h4>
+  <% @created_non_active_challenges.each do |created_challenge| %>
+    <%= link_to challenge_path(created_challenge), class: "card-link" do %>
+      <div class="card text-bg-light mb-3">
+        <div class="card-header"><%= created_challenge.name.titleize %></div>
+        <div class="card-body">
+          <p class="card-text"><small class="text-body-secondary">Started on <%= created_challenge.start_date.strftime("%d %b %Y") %></small></p>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+<% if @archived_challenges.any? %>  
+  <h4>Archived challenges</h4>
+  <% @archived_challenges.each do |arch_challenge| %>
+    <%= link_to challenge_path(arch_challenge), class: "card-link" do %>
+      <div class="card text-bg-light mb-3">
+        <div class="card-header"><%= arch_challenge.name.titleize %></div>
+        <div class="card-body">
+          <p class="card-text"><small class="text-body-secondary">Started on <%= arch_challenge.start_date.strftime("%d %b %Y") %></small></p>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

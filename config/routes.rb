@@ -1,16 +1,41 @@
 Rails.application.routes.draw do
-  get "logs/index"
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  resource :user, only: [ :show, :edit, :update ] do
+    patch :toggle_visibility, on: :collection
+    patch :toggle_reminder_email_opt_in, on: :collection
+  end
+
+  resources :challenges do
+    member do
+      get "day/:date", action: :show_by_date, as: :day
+      post "join", to: "challenges#join", as: "join"
+      delete "leave", to: "challenges#leave", as: "leave"
+      post "set_primary", to: "challenges#set_primary"
+      post "remove_primary", to: "challenges#remove_primary"
+    end
+
+    collection do
+      get "public", to: "challenges#public_index", as: "public"
+    end
+
+    resources :logs, only: [ :create, :index, :destroy ] do
+      collection do
+        delete "reset_logs", to: "logs#reset_logs", as: "reset"
+        post "catch_up", to: "logs#catch_up", as: "catch_up"
+      end
+    end
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get "logs/all", to: "logs#index_all", as: "all_logs"
 
-  # Defines the root path route ("/")
-  root "challenges#index"
+  authenticated :user do
+    root "logs#index_all", as: :authenticated_root
+  end
+
+  unauthenticated do
+    root "application#home", as: :unauthenticated_root
+  end
 end

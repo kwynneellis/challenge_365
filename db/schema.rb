@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_10_145014) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_10_153425) do
   create_table "challenges", force: :cascade do |t|
     t.string "name"
     t.string "challenge_type"
@@ -23,8 +23,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_10_145014) do
     t.string "rep_unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "creator_id"
     t.boolean "active"
+    t.integer "creator_id"
     t.index ["creator_id"], name: "index_challenges_on_creator_id"
   end
 
@@ -65,6 +65,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_10_145014) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "challenges", "users", column: "creator_id"
   add_foreign_key "logs", "challenges"
   add_foreign_key "logs", "users"
   add_foreign_key "participations", "challenges"

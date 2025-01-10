@@ -1,0 +1,57 @@
+<%= form_with(model: @challenge, local: true) do |form| %>
+<% if @challenge.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@challenge.errors.count, "error") %> prohibited this challenge from being saved:</h2>
+
+      <ul>
+        <% @challenge.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field mb-2">
+    <%= form.label :name, class: 'form-label' %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="field mb-2">
+    <%= form.label :start_date, class: 'form-label' %>
+    <%= form.date_field :start_date, class: 'form-control' %>
+  </div>
+
+  <div class="field mb-2">
+    <%= form.label :end_date, class: 'form-label' %>
+    <%= form.date_field :end_date, class: 'form-control' %>
+  </div>
+
+  <div class="field mb-2 form-group">
+    <%= form.label :challenge_type, class: 'form-label' %>
+    <%= form.select :challenge_type, [['','']] + Challenge.CHALLENGE_TYPE.keys.map { |w| [w.titleize, w] }, {}, class: 'form-select' %>
+  </div>
+
+  <div class="field mb-2">
+    <%= form.label :starting_volume, class: 'form-label' %>
+    <%= form.number_field :starting_volume, class: 'form-control', step: 1, min: 1, value: @challenge.starting_volume || 1 %>
+  </div>
+
+  <div class="field mb-2">
+    <%= form.label :minimum_volume, "Fixed target (if applicable)", class: 'form-label' %>
+    <%= form.number_field :minimum_volume, class: 'form-control', step: 1 %>
+  </div>
+
+  <div class="field mb-2">
+    <%= form.label :rep_unit, "Units (optional)", class: 'form-label' %>
+    <%= form.text_field :rep_unit, class: 'form-control', placeholder: "mins/reps/kgs..." %>
+  </div>
+
+  <div class="form-check form-switch my-3">
+    <%= form.check_box :public, class: 'form-check-input' %>
+    <%= form.label :public, "Others can join", class: 'form-check-label' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit(@challenge.new_record? ? 'Create' : 'Update', class: "btn btn-primary") %>
+  </div>
+
+<% end %>

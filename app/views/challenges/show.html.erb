@@ -1,0 +1,11 @@
+<%= render 'challenges/navbar', challenge: @challenge %>
+
+
+<% if current_user.participating_in?(@challenge) %>
+
+  <%= render "challenges/#{@challenge.challenge_type}" %>
+
+  <%= render 'challenges/insights', challenge: @challenge %>
+<% else %>
+<%= render 'challenges/description', challenge: @challenge %>
+<% end %>

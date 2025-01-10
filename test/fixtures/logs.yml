@@ -3,7 +3,11 @@
 one:
   user: one
   challenge: one
+  date_of_set: 2025-01-10
+  reps_in_set: 1
 
 two:
   user: two
   challenge: two
+  date_of_set: 2025-01-10
+  reps_in_set: 1

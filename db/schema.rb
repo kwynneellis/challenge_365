@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_31_165046) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_10_145014) do
   create_table "challenges", force: :cascade do |t|
     t.string "name"
     t.string "challenge_type"
@@ -48,32 +48,26 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_165046) do
     t.index ["user_id"], name: "index_participations_on_user_id"
   end
 
-  create_table "sessions", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.string "ip_address"
-    t.string "user_agent"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_sessions_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
-    t.string "email_address", null: false
-    t.string "password_digest", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username"
-    t.boolean "visibility", default: false
+    t.boolean "visibility", default: true
     t.integer "primary_challenge_id"
-    t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.boolean "reminder_email_opt_in", default: false, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["primary_challenge_id"], name: "index_users_on_primary_challenge_id"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "challenges", "users", column: "creator_id"
   add_foreign_key "logs", "challenges"
   add_foreign_key "logs", "users"
   add_foreign_key "participations", "challenges"
   add_foreign_key "participations", "users"
-  add_foreign_key "sessions", "users"
   add_foreign_key "users", "challenges", column: "primary_challenge_id"
 end

@@ -29,7 +29,6 @@ class Challenge < ApplicationRecord
     "incremental" => "Incremental"
   }
 
-
   def cumulative_reps_done(user)
     logs.where(user: user).sum(:reps_in_set)
   end

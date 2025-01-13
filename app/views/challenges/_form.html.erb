@@ -27,7 +27,7 @@
 
   <div class="field mb-2 form-group">
     <%= form.label :challenge_type, class: 'form-label' %>
-    <%= form.select :challenge_type, [['','']] + Challenge.CHALLENGE_TYPE.keys.map { |w| [w.titleize, w] }, {}, class: 'form-select' %>
+    <%= form.select :challenge_type, [['','']] + Challenge::CHALLENGE_TYPE.keys.map { |w| [w.titleize, w] }, {}, class: 'form-select' %>
   </div>
 
   <div class="field mb-2">
